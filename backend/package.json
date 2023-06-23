@@ -1,0 +1,9 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "SSR Todo",
+  "main": "index.js",
+  "scripts": {},
+  "author": "Kelley Sharp",
+  "license": "ISC"
+}

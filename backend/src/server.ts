@@ -3,6 +3,10 @@ import { v4 as uuidv4 } from "uuid";
 import session from "express-session";
 import { PrismaSessionStore } from "@quixo3/prisma-session-store";
 import { PrismaClient } from "@prisma/client";
+import { createYoga } from "graphql-yoga";
+import { schema } from "./schema";
+// import { db } from "src/db";
+
 import {
   COOKIE_OPTIONS,
   IS_PRODUCTION,
@@ -30,3 +34,8 @@ app.use(
     }),
   })
 );
+
+const yoga = createYoga({
+  schema,
+  plugins: [IS_PRODUCTION ? useDisableIntrospection() : null].filter(isNotNull),
+});

@@ -1,15 +1,8 @@
 services:
-  api:
-    build:
-      dockerfile: Dockerfile
-      context: .
-      # Only will build development stage from our dockerfile
-      target: development
-    volumes:
-      - .:/usr/src/app
-    env_file:
-    - .env
-    # Run a command against the development stage of the image
-    command: npm run start:dev
-    ports:
-      - 8000:8000
+  postgres:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}

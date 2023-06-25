@@ -6,6 +6,10 @@ generator client {
   binaryTargets = ["native", "linux-musl"]
 }
 
+generator pothos {
+  provider = "prisma-pothos-types"
+}
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")

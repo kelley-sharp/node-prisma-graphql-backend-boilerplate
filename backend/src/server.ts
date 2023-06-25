@@ -1,41 +1,24 @@
 import express from "express";
-import { v4 as uuidv4 } from "uuid";
-import session from "express-session";
-import { PrismaSessionStore } from "@quixo3/prisma-session-store";
-import { PrismaClient } from "@prisma/client";
 import { createYoga } from "graphql-yoga";
 import { schema } from "./schema";
-// import { db } from "src/db";
+import { useDisableIntrospection } from "@graphql-yoga/plugin-disable-introspection";
+import { isNotNull } from "./shared/typeguards";
 
-import {
-  COOKIE_OPTIONS,
-  IS_PRODUCTION,
-  SESSION_COOKIE_NAME,
-  SESSION_SECRET,
-} from "./config/constants";
+import { IS_PRODUCTION } from "./config/constants";
 
 const PORT = 8000;
 
 const app = express();
 
-app.use(
-  session({
-    genid: () => uuidv4(),
-    secret: SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false,
-    name: SESSION_COOKIE_NAME,
-    unset: "destroy",
-    cookie: COOKIE_OPTIONS,
-    store: new PrismaSessionStore(new PrismaClient() as any, {
-      checkPeriod: 2 * 60 * 1000, //ms
-      dbRecordIdIsSessionId: true,
-      dbRecordIdFunction: undefined,
-    }),
-  })
-);
-
 const yoga = createYoga({
   schema,
   plugins: [IS_PRODUCTION ? useDisableIntrospection() : null].filter(isNotNull),
+});
+
+// Bind GraphQL Yoga to `/graphql` endpoint
+app.use("/graphql", yoga);
+
+app.listen(PORT, () => {
+  // eslint-disable-next-line no-console
+  console.log(`SSR-Todo Backend started on port ${PORT}`);
 });

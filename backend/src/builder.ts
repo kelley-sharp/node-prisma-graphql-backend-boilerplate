@@ -18,10 +18,6 @@ export const builder = new SchemaBuilder<{
       Output: Date;
       Input: Date;
     };
-    JSON: {
-      Input: Prisma.JsonValue;
-      Output: Prisma.JsonValue;
-    };
   };
 }>({
   plugins: [PrismaPlugin, SimpleObjectsPlugin, ErrorsPlugin],
@@ -31,7 +27,6 @@ export const builder = new SchemaBuilder<{
 });
 
 builder.addScalarType("DateTime", DateTimeResolver, {});
-builder.addScalarType("JSON", GraphQLJSON, {});
 
 builder.queryType();
 builder.mutationType();

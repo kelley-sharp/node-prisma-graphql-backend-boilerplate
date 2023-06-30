@@ -1,6 +1,7 @@
 import { printSchema, lexicographicSortSchema } from "graphql";
 import { writeFileSync } from "fs";
 import { builder } from "./builder";
+import "./todos";
 
 export const schema = builder.toSchema();
 

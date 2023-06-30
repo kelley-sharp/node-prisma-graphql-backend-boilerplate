@@ -7,6 +7,7 @@ import { assertNonNullish } from "src/errors/typeguards";
 import { Prisma } from "@prisma/client";
 
 builder.mutationFields((t) => ({
+  //create
   createTodo: t.prismaField({
     type: "Todo",
     args: {
@@ -37,6 +38,7 @@ builder.mutationFields((t) => ({
       }
     },
   }),
+  //update
   updateTodo: t.prismaField({
     type: "Todo",
     args: {
@@ -74,6 +76,7 @@ builder.mutationFields((t) => ({
       }
     },
   }),
+  //delete
   deleteTodo: t.prismaField({
     type: "Todo",
     args: {
@@ -98,6 +101,52 @@ builder.mutationFields((t) => ({
           },
         });
         return todo;
+      } catch (error) {
+        catchResolverError(error, { entity: "Todo", context });
+      }
+    },
+  }),
+}));
+
+builder.queryFields((t) => ({
+  //find one todo
+  todo: t.prismaField({
+    type: "Todo",
+    nullable: true,
+    args: {
+      id: t.arg({ type: "Int", required: true }),
+    },
+    errors: {
+      types: [ApiError],
+      directResult: true,
+    },
+    resolve: async (query, root, args, context) => {
+      const { id } = args;
+      try {
+        const todo = await db.todo.findFirstOrThrow({
+          ...query, //what does this do?
+          where: { id },
+        });
+        return todo;
+      } catch (error) {
+        catchResolverError(error, { entity: "Todo", context });
+      }
+    },
+  }),
+  //find all todos
+  todosList: t.prismaField({
+    type: ["Todo"],
+    nullable: true,
+    errors: {
+      types: [ApiError],
+      directResult: false, //what is this?
+      dataField: {
+        name: "todos",
+      },
+    },
+    resolve: async (query, root, args, context) => {
+      try {
+        return await db.todo.findMany();
       } catch (error) {
         catchResolverError(error, { entity: "Todo", context });
       }

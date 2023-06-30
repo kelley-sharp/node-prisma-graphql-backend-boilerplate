@@ -1,0 +1,63 @@
+{
+  "root": true,
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+
+  "plugins": ["@typescript-eslint", "import", "no-only-tests"],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 2022,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "env": {
+    "browser": false,
+    "jest": true,
+    "jquery": false,
+    "node": true
+  },
+  "settings": {
+    "import/extensions": [".tsx", ".ts"]
+  },
+  "rules": {
+    "@typescript-eslint/ban-ts-comment": "off",
+    "@typescript-eslint/camelcase": "off",
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/no-empty-function": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "@typescript-eslint/no-use-before-define": "off",
+    "@typescript-eslint/no-var-requires": "off",
+    "@typescript-eslint/prefer-nullish-coalescing": "off",
+    "@typescript-eslint/prefer-optional-chain": "warn",
+    "arrow-parens": "off",
+    "comma-dangle": "off",
+    "curly": "warn",
+    "import/first": "warn",
+    "import/no-default-export": "off",
+    "indent": "off",
+    "max-len": "off",
+    "no-console": "error",
+    "no-empty-character-class": "off",
+    "no-global-assign": "off",
+    "no-only-tests/no-only-tests": "error",
+    "no-restricted-imports": ["warn", { "patterns": ["./src"] }],
+    "no-unexpected-multiline": "off",
+    "prefer-const": "warn",
+    "quotes": "off",
+    "semi": "off"
+  },
+  "overrides": [
+    {
+      "files": ["src/**/*"],
+      "rules": {
+        "import/no-default-export": "warn"
+      }
+    }
+  ]
+}

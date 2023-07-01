@@ -1,5 +1,4 @@
 import { GetServerSideProps, NextPage } from "next";
-import { useEffect } from "react";
 import { getServerSideClient } from "src/shared/graphql/apollo-client";
 import {
   FindAllTodosDocument,

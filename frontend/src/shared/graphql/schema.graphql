@@ -44,6 +44,7 @@ type QueryTodosListSuccess {
 }
 
 type Todo {
+  completedAt: DateTime
   content: String
   createdAt: DateTime!
   id: Int!
@@ -52,6 +53,7 @@ type Todo {
 }
 
 input TodoInput {
+  completedAt: String
   content: String
   title: String
 }

@@ -94,6 +94,7 @@ export type QueryTodosListSuccess = {
 
 export type Todo = {
   __typename: "Todo";
+  completedAt?: Maybe<Scalars["DateTime"]["output"]>;
   content?: Maybe<Scalars["String"]["output"]>;
   createdAt: Scalars["DateTime"]["output"];
   id: Scalars["Int"]["output"];
@@ -102,6 +103,7 @@ export type Todo = {
 };
 
 export type TodoInput = {
+  completedAt?: InputMaybe<Scalars["String"]["input"]>;
   content?: InputMaybe<Scalars["String"]["input"]>;
   title?: InputMaybe<Scalars["String"]["input"]>;
 };
@@ -121,6 +123,7 @@ export type FindAllTodosQuery = {
           id: number;
           title: string;
           updatedAt: string;
+          completedAt?: string | null;
         }>;
       }
     | null;
@@ -142,6 +145,7 @@ export const FindAllTodosDocument = gql`
           id
           title
           updatedAt
+          completedAt
         }
       }
     }

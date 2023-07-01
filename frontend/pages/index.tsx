@@ -1,4 +1,15 @@
-export default function Home() {
+import { NextPage } from "next";
+import NextLink from "next/link";
+
+type Todo = {
+  id: Number;
+  createdAt: Date;
+  updatedAt: Date;
+  title: String;
+  content: String;
+};
+
+const Home: NextPage = () => {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <div className="w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
@@ -17,11 +28,12 @@ export default function Home() {
         </div>
       </div>
       <div className="fixed top-1/4 flex flex-col lg:h-auto lg:w-auto">
-        <div>Todos</div>
-        <ul>
-          <li>Example Todo</li>
-        </ul>
+        <NextLink href={`/todos`} className="text-blue-400 underline">
+          Click Here For Todos
+        </NextLink>
       </div>
     </main>
   );
-}
+};
+
+export default Home;

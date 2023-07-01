@@ -1,0 +1,19 @@
+query findAllTodos {
+  todosList {
+    ... on ApiError {
+      __typename
+      errorMessage
+      errorType
+    }
+    ... on QueryTodosListSuccess {
+      __typename
+      todos {
+        content
+        createdAt
+        id
+        title
+        updatedAt
+      }
+    }
+  }
+}

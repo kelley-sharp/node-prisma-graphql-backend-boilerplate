@@ -1,0 +1,9 @@
+{
+  "possibleTypes": {
+    "MutationCreateTodoResult": ["ApiError", "Todo"],
+    "MutationDeleteTodoResult": ["ApiError", "Todo"],
+    "MutationUpdateTodoResult": ["ApiError", "Todo"],
+    "QueryTodoResult": ["ApiError", "Todo"],
+    "QueryTodosListResult": ["ApiError", "QueryTodosListSuccess"]
+  }
+}

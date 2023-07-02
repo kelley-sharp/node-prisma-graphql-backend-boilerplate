@@ -51,9 +51,9 @@ builder.mutationFields((t) => ({
     },
     resolve: async (query, root, args, context) => {
       const { id, input } = args;
-      const { title, content } = input;
+      const { title, content, completedAt } = input;
 
-      const dataToUpdate: Prisma.TodoUpdateArgs["data"] = { content };
+      const dataToUpdate: Prisma.TodoUpdateArgs["data"] = { content, completedAt };
       if (title) {
         dataToUpdate.title = title;
       }
@@ -72,6 +72,7 @@ builder.mutationFields((t) => ({
         });
         return todo;
       } catch (error) {
+        console.log("fuck ");
         catchResolverError(error, { entity: "Todo", context });
       }
     },

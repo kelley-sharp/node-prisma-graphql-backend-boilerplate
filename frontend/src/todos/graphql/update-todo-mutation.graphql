@@ -1,0 +1,14 @@
+mutation updateTodo($id: Int!, $input: TodoInput!) {
+  updateTodo(id: $id, input: $input) {
+    ... on ApiError {
+      __typename
+      errorMessage
+      errorType
+    }
+    ... on Todo {
+      id
+      title
+      completedAt
+    }
+  }
+}

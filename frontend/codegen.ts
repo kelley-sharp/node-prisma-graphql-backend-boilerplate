@@ -15,7 +15,7 @@ const config: CodegenConfig = {
         nonOptionalTypename: true,
         scalars: {
           ID: "number",
-          DateTime: "string",
+          DateTime: "Date",
         },
         withComponent: false,
         withHOC: false,

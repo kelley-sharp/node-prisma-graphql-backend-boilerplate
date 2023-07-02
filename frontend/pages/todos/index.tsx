@@ -4,18 +4,33 @@ import {
   FindAllTodosDocument,
   FindAllTodosQuery,
   Todo,
+  useFindAllTodosLazyQuery,
 } from "src/shared/graphql/generated";
+import { CreateTodoForm } from "src/todos/components/create-todo-form";
+import { TodoList } from "src/todos/components/todo-list";
 
 type TodosIndexPageProps = {
-  todos: Todo[];
+  todosFromServer: Todo[];
 };
 
-const TodosIndexPage: NextPage<TodosIndexPageProps> = ({ todos }) => {
+const TodosIndexPage: NextPage<TodosIndexPageProps> = ({ todosFromServer }) => {
+  const [findAllTodos, { data }] = useFindAllTodosLazyQuery({
+    fetchPolicy: "network-only",
+  });
+  const todos =
+    data?.todosList?.__typename === "QueryTodosListSuccess"
+      ? data.todosList.todos
+      : todosFromServer;
   return (
-    <div>
-      {todos.map((todo) => (
-        <span key={todo.id}>{todo.title}</span>
-      ))}
+    <div className="h-screen flex justify-center m-[200px]">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 lg:gap-10">
+        <div className="col-span-1">
+          <CreateTodoForm findAllTodos={findAllTodos} />
+        </div>
+        <div className="col-span-1">
+          <TodoList todos={todos} />
+        </div>
+      </div>
     </div>
   );
 };
@@ -43,7 +58,7 @@ export const getServerSideProps: GetServerSideProps<
       throw new Error(data.todosList.errorMessage);
     }
 
-    return { props: { todos: data.todosList.todos } };
+    return { props: { todosFromServer: data.todosList.todos } };
   } catch (error) {
     console.error(error);
     return {

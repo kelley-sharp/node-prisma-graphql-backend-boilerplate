@@ -28,7 +28,7 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean };
   Int: { input: number; output: number };
   Float: { input: number; output: number };
-  DateTime: { input: string; output: string };
+  DateTime: { input: Date; output: Date };
 };
 
 export type ApiError = {
@@ -103,9 +103,28 @@ export type Todo = {
 };
 
 export type TodoInput = {
-  completedAt?: InputMaybe<Scalars["String"]["input"]>;
+  completedAt?: InputMaybe<Scalars["DateTime"]["input"]>;
   content?: InputMaybe<Scalars["String"]["input"]>;
   title?: InputMaybe<Scalars["String"]["input"]>;
+};
+
+export type CreateTodoMutationVariables = Exact<{
+  title?: InputMaybe<Scalars["String"]["input"]>;
+  content?: InputMaybe<Scalars["String"]["input"]>;
+}>;
+
+export type CreateTodoMutation = {
+  __typename: "Mutation";
+  createTodo:
+    | { __typename: "ApiError"; errorMessage: string; errorType: ApiErrorType }
+    | {
+        __typename: "Todo";
+        id: number;
+        content?: string | null;
+        createdAt: Date;
+        title: string;
+        updatedAt: Date;
+      };
 };
 
 export type FindAllTodosQueryVariables = Exact<{ [key: string]: never }>;
@@ -119,16 +138,95 @@ export type FindAllTodosQuery = {
         todos: Array<{
           __typename: "Todo";
           content?: string | null;
-          createdAt: string;
+          createdAt: Date;
           id: number;
           title: string;
-          updatedAt: string;
-          completedAt?: string | null;
+          updatedAt: Date;
+          completedAt?: Date | null;
         }>;
       }
     | null;
 };
 
+export type UpdateTodoMutationVariables = Exact<{
+  id: Scalars["Int"]["input"];
+  input: TodoInput;
+}>;
+
+export type UpdateTodoMutation = {
+  __typename: "Mutation";
+  updateTodo:
+    | { __typename: "ApiError"; errorMessage: string; errorType: ApiErrorType }
+    | {
+        __typename: "Todo";
+        id: number;
+        title: string;
+        completedAt?: Date | null;
+      };
+};
+
+export const CreateTodoDocument = gql`
+  mutation createTodo($title: String, $content: String) {
+    createTodo(input: { title: $title, content: $content }) {
+      ... on ApiError {
+        __typename
+        errorMessage
+        errorType
+      }
+      ... on Todo {
+        id
+        content
+        createdAt
+        title
+        updatedAt
+      }
+    }
+  }
+`;
+export type CreateTodoMutationFn = Apollo.MutationFunction<
+  CreateTodoMutation,
+  CreateTodoMutationVariables
+>;
+
+/**
+ * __useCreateTodoMutation__
+ *
+ * To run a mutation, you first call `useCreateTodoMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateTodoMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createTodoMutation, { data, loading, error }] = useCreateTodoMutation({
+ *   variables: {
+ *      title: // value for 'title'
+ *      content: // value for 'content'
+ *   },
+ * });
+ */
+export function useCreateTodoMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateTodoMutation,
+    CreateTodoMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<CreateTodoMutation, CreateTodoMutationVariables>(
+    CreateTodoDocument,
+    options
+  );
+}
+export type CreateTodoMutationHookResult = ReturnType<
+  typeof useCreateTodoMutation
+>;
+export type CreateTodoMutationResult =
+  Apollo.MutationResult<CreateTodoMutation>;
+export type CreateTodoMutationOptions = Apollo.BaseMutationOptions<
+  CreateTodoMutation,
+  CreateTodoMutationVariables
+>;
 export const FindAllTodosDocument = gql`
   query findAllTodos {
     todosList {
@@ -200,4 +298,64 @@ export type FindAllTodosLazyQueryHookResult = ReturnType<
 export type FindAllTodosQueryResult = Apollo.QueryResult<
   FindAllTodosQuery,
   FindAllTodosQueryVariables
+>;
+export const UpdateTodoDocument = gql`
+  mutation updateTodo($id: Int!, $input: TodoInput!) {
+    updateTodo(id: $id, input: $input) {
+      ... on ApiError {
+        __typename
+        errorMessage
+        errorType
+      }
+      ... on Todo {
+        id
+        title
+        completedAt
+      }
+    }
+  }
+`;
+export type UpdateTodoMutationFn = Apollo.MutationFunction<
+  UpdateTodoMutation,
+  UpdateTodoMutationVariables
+>;
+
+/**
+ * __useUpdateTodoMutation__
+ *
+ * To run a mutation, you first call `useUpdateTodoMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateTodoMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateTodoMutation, { data, loading, error }] = useUpdateTodoMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdateTodoMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateTodoMutation,
+    UpdateTodoMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<UpdateTodoMutation, UpdateTodoMutationVariables>(
+    UpdateTodoDocument,
+    options
+  );
+}
+export type UpdateTodoMutationHookResult = ReturnType<
+  typeof useUpdateTodoMutation
+>;
+export type UpdateTodoMutationResult =
+  Apollo.MutationResult<UpdateTodoMutation>;
+export type UpdateTodoMutationOptions = Apollo.BaseMutationOptions<
+  UpdateTodoMutation,
+  UpdateTodoMutationVariables
 >;

@@ -53,7 +53,7 @@ type Todo {
 }
 
 input TodoInput {
-  completedAt: String
+  completedAt: DateTime
   content: String
   title: String
 }

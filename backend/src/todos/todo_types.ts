@@ -16,6 +16,6 @@ export const TodoInput = builder.inputType("TodoInput", {
   fields: (t) => ({
     title: t.string(),
     content: t.string(),
-    completedAt: t.string(),
+    completedAt: t.field({ type: "DateTime", required: false }),
   }),
 });

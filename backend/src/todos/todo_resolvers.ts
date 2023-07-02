@@ -72,6 +72,7 @@ builder.mutationFields((t) => ({
         });
         return todo;
       } catch (error) {
+        console.log("fuck ");
         catchResolverError(error, { entity: "Todo", context });
       }
     },

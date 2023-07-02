@@ -14,6 +14,8 @@ export function catchResolverError<Context extends SchemaContext>(
   error: Error | ApiError | PrismaClientKnownRequestError,
   { entity }: CatchResolverErrorConfig<Context>,
 ): never {
+  console.error(error);
+
   if (isApiError(error)) {
     throw error;
   }

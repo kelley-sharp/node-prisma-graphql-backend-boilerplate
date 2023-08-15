@@ -1,5 +1,4 @@
 import { builder } from "src/builder";
-import { db } from "src/db";
 
 builder.prismaObject("Todo", {
   fields: (t) => ({

@@ -20,5 +20,5 @@ app.use("/graphql", yoga);
 
 app.listen(PORT, () => {
   // eslint-disable-next-line no-console
-  console.log(`SSR-Todo Backend started on port ${PORT}`);
+  console.log(`Node-Prisma-GraphQL Backend started on port ${PORT}`);
 });

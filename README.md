@@ -20,7 +20,7 @@ This configuration is a backend GraphQL API boilerplate with the following piece
 - [GraphQL](https://graphql.org/) as the query language for your API, and a server-side runtime for running queries
 - [Yoga](https://the-guild.dev/graphql/yoga-server) as a lightweight GraphQL server
 - [Prisma](https://www.prisma.io/) as an ORM that works well with Node.js and Typescript 
-- [Pothos](https://pothos-graphql.dev/) a plugin based GraphQL schema builder for typescript
+- [Pothos](https://pothos-graphql.dev/) a plugin based GraphQL schema builder for Typescript
 - [ESLint](https://eslint.org/) a linter for your code editor
 - [Prettier](https://prettier.io/) an opinionated code formatter
 
